@@ -1,50 +1,64 @@
-# ppt_writer
+# PPT Writer - 集成 Presenton
 
-AI-powered PPT generator that collects information from websites and documents, then generates structured PowerPoint presentations.
+本项目集成了 [Presenton](https://github.com/presenton/presenton) AI 演示文稿生成器。
 
-## Features
+## 快速开始
 
-- 🌐 Web content scraping and research
-- 📄 Document input support (PDF, Word, Markdown)
-- 🎨 Multiple template themes
-- 📊 Structured slide generation
-- 💾 Export to PPTX/PDF
+### 方式一：GitHub Codespace（推荐）
 
-## Quick Start
+1. 在 GitHub 仓库页面点击 **"Code"** → **"Create codespace on main"**
+2. 等待环境自动搭建（约2-3分钟）
+3. 在终端运行启动脚本：
+   ```bash
+   ./start.sh
+   ```
+4. 点击终端显示的链接访问服务
 
-### Prerequisites
-
-- Python 3.10+
-- Docker (optional)
-
-### Installation
+### 方式二：本地 Docker
 
 ```bash
+# 克隆并启动
 git clone https://github.com/harryxh/ppt_writer.git
 cd ppt_writer
-pip install -r requirements.txt
+cp .env.example .env
+# 编辑 .env 添加你的 API Key
+docker-compose up -d
+# 访问 http://localhost:5000
 ```
 
-### Usage
+## 功能
+
+- 🎯 输入主题，自动生成结构化 PPT
+- 🌐 支持网页内容采集
+- 📄 支持文档上传
+- 🎨 多主题模板
+- 💾 导出 PPTX/PDF
+
+## API 使用
 
 ```bash
-python main.py --topic "Your presentation topic" --slides 10
+curl -X POST http://localhost:5000/api/v1/ppt/presentation/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "content": "Introduction to Machine Learning",
+    "n_slides": 10,
+    "language": "Chinese",
+    "template": "modern"
+  }'
 ```
 
-## Project Structure
+## 配置
 
-```
-ppt_writer/
-├── src/
-│   ├── scraper/       # Web scraping modules
-│   ├── generator/     # PPT generation logic
-│   ├── templates/     # Presentation templates
-│   └── utils/         # Utility functions
-├── tests/
-├── requirements.txt
-└── README.md
-```
+在 `.env` 文件中配置：
 
-## License
+| 变量 | 说明 |
+|------|------|
+| OPENAI_API_KEY | OpenAI API Key |
+| LLM | 模型提供商 (openai/google/anthropic/ollama) |
+| IMAGE_PROVIDER | 图片生成器 |
+| template | 默认模板 |
 
-MIT
+## 公开访问
+
+在 Codespace 中，服务会自动通过 HTTPS 公开访问：
+- 格式：`https://{codespace-name}-5000.preview.app.github.dev`
