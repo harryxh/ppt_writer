@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  ppt-writer:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app_data:/app_data
+    environment:
+      - LLM=openai
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - IMAGE_PROVIDER=pexels
+      - PEXELS_API_KEY=${PEXELS_API_KEY}
+      - CAN_CHANGE_KEYS=true
+    restart: unless-stopped
